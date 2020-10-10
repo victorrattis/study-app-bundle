@@ -1,5 +1,6 @@
 package com.study.vhra.appbundle
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -7,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
@@ -21,7 +23,9 @@ class MainActivity : AppCompatActivity() {
         Log.d("devlog", "status: ${state.status()}, name: $names")
         when(state.status()) {
             SplitInstallSessionStatus.DOWNLOADING -> {}
-            SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {}
+            SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
+                manager.startConfirmationDialogForResult(state, this, 1000)
+            }
             SplitInstallSessionStatus.INSTALLED -> {
                 onInstalled(names)
             }
@@ -59,6 +63,11 @@ class MainActivity : AppCompatActivity() {
         manager.unregisterListener(listener)
     }
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        SplitCompat.installActivity(newBase)
+    }
+
     private fun onInstalled(name: String) {
         showInstallCompleted(name)
         refreshContent1()
@@ -78,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshContent1() {
-        val resId = resources.getIdentifier(
+        val resId = application.resources.getIdentifier(
             "content1_image",
             "drawable",
             "com.study.vhra.appbundle.content1"

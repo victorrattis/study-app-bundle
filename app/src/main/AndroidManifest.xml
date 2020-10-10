@@ -16,21 +16,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".Wallpaper1Service"
-            android:label="Wallpaper 1"
-            android:permission="android.permission.BIND_WALLPAPER">
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService" />
-            </intent-filter>
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:resource="@xml/wallpaper_1"/>
-            <meta-data
-                android:name="module"
-                android:resource="@string/wallpaper1_module_name" />
-        </service>
     </application>
-
 </manifest>

@@ -14,6 +14,7 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private lateinit var manager: SplitInstallManager
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.btn_content1_refresh)?.setOnClickListener { refreshContent1() }
 
         manager = SplitInstallManagerFactory.create(this)
+        Log.d("devlog", "installedModules: ${manager.installedModules.joinToString("; ")}")
         refreshContent1()
     }
 
@@ -87,16 +89,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshContent1() {
-        val resId = application.resources.getIdentifier(
-            "content1_image",
-            "drawable",
-            "com.study.vhra.appbundle.content1"
-        )
-        findViewById<ImageView>(R.id.image_content1_result).setImageResource(resId)
-    }
-
-    private fun setContent1Result() {
-        findViewById<ImageView>(R.id.image_content1_result)
+        SplitCompat.install(this)
+        try {
+            val resId = resources.getIdentifier(
+                "content1_image",
+                "drawable",
+                "com.study.vhra.appbundle.content1"
+            )
+            findViewById<ImageView>(R.id.image_content1_result).setImageResource(resId)
+        } catch (e: Exception) {
+            Log.e("devlog", e.message, e)
+        }
     }
 
     private fun showInstallCompleted(name: String) {

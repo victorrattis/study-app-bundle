@@ -10,8 +10,8 @@ android {
         applicationId "com.study.vhra.appbundle"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 4
-        versionName "00.00.004"
+        versionCode 5
+        versionName "00.00.005"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -23,14 +23,15 @@ android {
         }
     }
 
-    dynamicFeatures = []
+    dynamicFeatures = [':content1']
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     api 'androidx.appcompat:appcompat:1.2.0'
     api 'androidx.core:core-ktx:1.3.2'
-    api 'androidx.constraintlayout:constraintlayout:2.0.2'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
+    api "com.google.android.play:core:1.8.2"
 }

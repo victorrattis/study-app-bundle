@@ -1,2 +1,3 @@
+include ':content1'
 rootProject.name='App Bundle Study'
 include ':app'

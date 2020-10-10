@@ -1,0 +1,4 @@
+rootProject.name='App Bundle Study'
+include ':app'
+include ':contentA'
+include ':contentB'

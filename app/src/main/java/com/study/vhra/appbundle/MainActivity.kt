@@ -21,7 +21,9 @@ class MainActivity : AppCompatActivity(), BundleInstaller.Listener {
 
         findViewById<TextView>(R.id.text_app_version)?.text = BuildConfig.VERSION_NAME
         findViewById<Button>(R.id.btn_install_content1)?.setOnClickListener {
-            bundleInstaller.installBundle("content1")
+            bundleInstaller.installBundle("content1") {
+                bundleInstaller.installBundle("content1") {}
+            }
         }
         findViewById<ImageView>(R.id.btn_content1_refresh)?.setOnClickListener { refreshContent1() }
 
@@ -53,6 +55,7 @@ class MainActivity : AppCompatActivity(), BundleInstaller.Listener {
     }
 
     override fun onFailed(bundleName: String) {
+
         showDownloadError(bundleName)
     }
 

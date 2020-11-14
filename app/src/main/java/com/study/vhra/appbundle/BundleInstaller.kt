@@ -92,13 +92,17 @@ class BundleInstaller constructor(
         this.listener = null
     }
 
-    fun installBundle(bundleName: String) {
+    fun installBundle(bundleName: String, callback: () -> Unit) {
         Log.d("devlog", "install Bundle $bundleName")
         if (isBundleInstalled(bundleName)) {
             onBundleInstalled(bundleName)
             return
         }
-        /* TODO: Check if the bundle is in download */
+//        else if (isInDownload(bundleName)) {
+//            Log.d("devlog", "is in Download $bundleName")
+//            onBundleFailed(bundleName)
+//            return
+//        }
 
         val request = SplitInstallRequest.newBuilder()
             .addModule(bundleName)
@@ -120,15 +124,22 @@ class BundleInstaller constructor(
                     }
                 }
                 .addOnFailureListener { exception ->
-                    exception.printStackTrace()
-                    Log.d("devlog", "Start Install on Failure: $bundleName")
+                    Log.e("devlog", "Start Install on Failure: $bundleName", exception)
+                    callback()
                 }
                 .addOnSuccessListener { task ->
                     Log.d("devlog", "Start Install on Success: $bundleName")
                     Log.d("devlog", "   task: $task")
+                    callback()
                 }
         } catch (exception: Exception) {
             exception.printStackTrace()
+        }
+    }
+
+    private fun isInDownload(bundleName: String): Boolean {
+        return manager.sessionStates.isSuccessful && manager.sessionStates.result.any {
+            it.moduleNames().contains(bundleName)
         }
     }
 

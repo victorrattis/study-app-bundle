@@ -23,6 +23,8 @@ android {
         }
     }
 
+    assetPacks = [":content2"]
+
     dynamicFeatures = [':content1']
 }
 

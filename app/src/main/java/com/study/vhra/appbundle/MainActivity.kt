@@ -13,11 +13,15 @@ import com.google.android.play.core.splitcompat.SplitCompat
 class MainActivity : AppCompatActivity(), BundleInstaller.Listener {
     private lateinit var bundleInstaller: BundleInstaller
 
+    private lateinit var assetInstaller: AssetInstaller
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         bundleInstaller = (application as MyApplication).bundleInstaller
+
+        assetInstaller = AssetInstaller(this)
 
         findViewById<TextView>(R.id.text_app_version)?.text = BuildConfig.VERSION_NAME
         findViewById<Button>(R.id.btn_install_content1)?.setOnClickListener {
@@ -28,6 +32,8 @@ class MainActivity : AppCompatActivity(), BundleInstaller.Listener {
         findViewById<ImageView>(R.id.btn_content1_refresh)?.setOnClickListener { refreshContent1() }
 
         refreshContent1()
+
+        assetInstaller.installPack("content2")
     }
 
     override fun onResume() {
